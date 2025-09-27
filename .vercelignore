@@ -34,7 +34,6 @@ docs/
 
 # Other build artifacts
 cglicenses.json
-cgmanifest.json
 ThirdPartyNotices.txt
 LICENSE*.txt
 LICENSE*.md
