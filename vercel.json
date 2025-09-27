@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "name": "flowcode",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "out"
+      }
+    }
+  ],
+  "buildCommand": "npm run buildreact && NODE_OPTIONS='--max-old-space-size=8192' npm run compile && npm run compile-build && npm run minify-vscode",
+  "outputDirectory": "out",
+  "installCommand": "npm install",
+  "framework": null,
+  "functions": {
+    "src/api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "NODE_OPTIONS": "--max-old-space-size=8192"
+  },
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max-old-space-size=8192"
+    }
+  }
+}

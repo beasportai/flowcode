@@ -1,9 +1,9 @@
 {
-  "name": "code-oss-dev",
-  "version": "1.99.3",
-  "distro": "21c8d8ea1e46d97c5639a7cabda6c0e063cc8dd5",
+  "name": "flowcode",
+  "version": "1.0.0",
+  "distro": "flowcode-1.0.0",
   "author": {
-    "name": "Microsoft Corporation"
+    "name": "FlowCode Team"
   },
   "license": "MIT",
   "main": "./out/main.js",
@@ -69,7 +69,9 @@
     "extensions-ci": "node ./node_modules/gulp/bin/gulp.js extensions-ci",
     "extensions-ci-pr": "node ./node_modules/gulp/bin/gulp.js extensions-ci-pr",
     "perf": "node scripts/code-perf.js",
-    "update-build-ts-version": "npm install typescript@next && tsc -p ./build/tsconfig.build.json"
+    "update-build-ts-version": "npm install typescript@next && tsc -p ./build/tsconfig.build.json",
+    "vercel-build": "NODE_OPTIONS='--max-old-space-size=8192' npm run buildreact && npm run compile && npm run compile-build && npm run minify-vscode",
+    "poll-build": "node scripts/poll-vercel-build.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.0",
@@ -263,10 +265,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/vscode.git"
+    "url": "https://github.com/flowcode/flowcode.git"
   },
   "bugs": {
-    "url": "https://github.com/microsoft/vscode/issues"
+    "url": "https://github.com/flowcode/flowcode/issues"
   },
   "optionalDependencies": {
     "windows-foreground-love": "0.5.0"
