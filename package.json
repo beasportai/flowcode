@@ -70,7 +70,7 @@
     "extensions-ci-pr": "node ./node_modules/gulp/bin/gulp.js extensions-ci-pr",
     "perf": "node scripts/code-perf.js",
     "update-build-ts-version": "npm install typescript@next && tsc -p ./build/tsconfig.build.json",
-    "vercel-build": "NODE_OPTIONS='--max-old-space-size=8192' npm run buildreact && npm run compile && npm run compile-build && npm run minify-vscode",
+    "vercel-build": "NODE_OPTIONS='--max-old-space-size=8192' npm run buildreact && cd build && npm install && cd .. && npm run compile && npm run compile-build && npm run minify-vscode",
     "poll-build": "node scripts/poll-vercel-build.js"
   },
   "dependencies": {
