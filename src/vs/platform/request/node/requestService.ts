@@ -132,14 +132,19 @@ export class RequestService extends AbstractRequestService implements IRequestSe
 }
 
 export async function lookupKerberosAuthorization(urlStr: string, spnConfig: string | undefined, logService: ILogService, logPrefix: string) {
-	const importKerberos = await import('kerberos');
-	const kerberos = importKerberos.default || importKerberos;
-	const url = new URL(urlStr);
-	const spn = spnConfig
-		|| (process.platform === 'win32' ? `HTTP/${url.hostname}` : `HTTP@${url.hostname}`);
-	logService.debug(`${logPrefix} Kerberos authentication lookup`, `proxyURL:${url}`, `spn:${spn}`);
-	const client = await kerberos.initializeClient(spn);
-	return client.step('');
+	try {
+		const importKerberos = await import('kerberos');
+		const kerberos = importKerberos.default || importKerberos;
+		const url = new URL(urlStr);
+		const spn = spnConfig
+			|| (process.platform === 'win32' ? `HTTP/${url.hostname}` : `HTTP@${url.hostname}`);
+		logService.debug(`${logPrefix} Kerberos authentication lookup`, `proxyURL:${url}`, `spn:${spn}`);
+		const client = await kerberos.initializeClient(spn);
+		return client.step('');
+	} catch (error) {
+		logService.debug(`${logPrefix} Kerberos authentication failed`, error);
+		throw error;
+	}
 }
 
 async function getNodeRequest(options: IRequestOptions): Promise<IRawRequestFunction> {
