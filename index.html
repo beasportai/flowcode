@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCode - AI-Powered Code Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background: #252526;
+            border-right: 1px solid #3e3e42;
+            padding: 20px;
+        }
+        
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .editor {
+            flex: 1;
+            background: #1e1e1e;
+            padding: 20px;
+        }
+        
+        .chat-panel {
+            height: 300px;
+            background: #252526;
+            border-top: 1px solid #3e3e42;
+            padding: 20px;
+            display: none;
+        }
+        
+        .chat-panel.active {
+            display: block;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007acc;
+            margin-bottom: 20px;
+        }
+        
+        .file-tree {
+            list-style: none;
+        }
+        
+        .file-tree li {
+            padding: 5px 0;
+            cursor: pointer;
+            color: #cccccc;
+        }
+        
+        .file-tree li:hover {
+            color: #ffffff;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #3e3e42;
+        }
+        
+        .editor-title {
+            font-size: 18px;
+            color: #ffffff;
+        }
+        
+        .ai-button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .ai-button:hover {
+            background: #005a9e;
+        }
+        
+        .code-editor {
+            width: 100%;
+            height: calc(100% - 60px);
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border: none;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+        }
+        
+        .chat-input {
+            width: 100%;
+            background: #3c3c3c;
+            color: #d4d4d4;
+            border: 1px solid #3e3e42;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .chat-messages {
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .message.user {
+            background: #007acc;
+            color: white;
+        }
+        
+        .message.ai {
+            background: #3c3c3c;
+            color: #d4d4d4;
+        }
+        
+        .status-bar {
+            background: #007acc;
+            color: white;
+            padding: 5px 20px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">🚀 FlowCode</div>
+            <ul class="file-tree">
+                <li>📁 src/</li>
+                <li>  📄 main.js</li>
+                <li>  📄 app.js</li>
+                <li>📁 components/</li>
+                <li>  📄 Header.js</li>
+                <li>  📄 Footer.js</li>
+                <li>📄 package.json</li>
+                <li>📄 README.md</li>
+            </ul>
+        </div>
+        
+        <div class="main">
+            <div class="editor">
+                <div class="editor-header">
+                    <div class="editor-title">📄 main.js</div>
+                    <button class="ai-button" onclick="toggleChat()">🤖 AI Assistant (Ctrl+L)</button>
+                </div>
+                <textarea class="code-editor" placeholder="// Welcome to FlowCode! Start coding here...
+
+function hello() {
+    console.log('Hello, FlowCode!');
+}
+
+// Press Ctrl+L to open AI chat
+// Press Ctrl+K for quick edits">// Welcome to FlowCode! Start coding here...
+
+function hello() {
+    console.log('Hello, FlowCode!');
+}
+
+// Press Ctrl+L to open AI chat
+// Press Ctrl+K for quick edits</textarea>
+            </div>
+            
+            <div class="chat-panel" id="chatPanel">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        👋 Hi! I'm your AI coding assistant. How can I help you today?
+                    </div>
+                </div>
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything about your code..." onkeypress="handleChatInput(event)">
+            </div>
+            
+            <div class="status-bar">
+                Ready • AI Assistant Available • Press Ctrl+L for chat
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chatOpen = false;
+        
+        function toggleChat() {
+            const chatPanel = document.getElementById('chatPanel');
+            chatOpen = !chatOpen;
+            
+            if (chatOpen) {
+                chatPanel.classList.add('active');
+                document.getElementById('chatInput').focus();
+            } else {
+                chatPanel.classList.remove('active');
+            }
+        }
+        
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                const input = event.target;
+                const message = input.value.trim();
+                
+                if (message) {
+                    addMessage('user', message);
+                    input.value = '';
+                    
+                    // Simulate AI response
+                    setTimeout(() => {
+                        addMessage('ai', `I understand you want help with: "${message}". This is a demo response. In the full version, I'll provide real AI assistance!`);
+                    }, 1000);
+                }
+            }
+        }
+        
+        function addMessage(type, text) {
+            const messages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = text;
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.key === 'l') {
+                event.preventDefault();
+                toggleChat();
+            }
+        });
+        
+        // Welcome message
+        console.log('🚀 FlowCode loaded successfully!');
+        console.log('Press Ctrl+L to open AI chat');
+    </script>
+</body>
+</html>
