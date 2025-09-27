@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs (we only need the final 'out' directory)
+build/
+extensions/
+src/
+test/
+scripts/
+cli/
+
+# Development files
+.git/
+.gitignore
+.nvmrc
+*.log
+*.tmp
+*.temp
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+docs/
+
+# Other build artifacts
+cglicenses.json
+cgmanifest.json
+ThirdPartyNotices.txt
+LICENSE*.txt
+LICENSE*.md
+
+# Resources not needed for web deployment
+resources/
+void_icons/
+
+# Development scripts
+build-flowcode.sh
+gulpfile.js
+tsfmt.json
+eslint.config.js
