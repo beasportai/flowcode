@@ -45,6 +45,5 @@ void_icons/
 
 # Development scripts
 build-flowcode.sh
-gulpfile.js
 tsfmt.json
 eslint.config.js
