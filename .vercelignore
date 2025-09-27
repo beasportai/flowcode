@@ -5,9 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Build outputs (we only need the final 'out' directory)
-build/
 extensions/
-src/
 test/
 scripts/
 cli/
