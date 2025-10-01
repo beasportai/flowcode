@@ -14,4 +14,7 @@ require('../esbuild-webview-common').run({
 	],
 	srcDir,
 	outdir: outDir,
+	additionalOptions: {
+		external: ['dompurify', 'markdown-it'],
+	}
 }, process.argv);
