@@ -26,9 +26,9 @@ export function activate(context: vscode.ExtensionContext) {
 	}, undefined, context.subscriptions);
 
 	return {
-		extendMarkdownIt(md: any) {
+		async extendMarkdownIt(md: any) {
 			if (isEnabled()) {
-				const katex = require('@vscode/markdown-it-katex').default;
+				const katex = (await import('@vscode/markdown-it-katex')).default;
 				const settingsMacros = getMacros();
 				const options = {
 					enableFencedBlocks: true,
