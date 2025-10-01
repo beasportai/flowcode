@@ -15,4 +15,7 @@ require('../esbuild-webview-common').run({
 	],
 	srcDir,
 	outdir: outDir,
+	additionalOptions: {
+		external: ['morphdom', 'lodash.throttle'],
+	}
 }, process.argv);
