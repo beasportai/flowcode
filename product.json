@@ -40,7 +40,7 @@
 	"linkProtectionTrustedDomains": [
 		"https://flowcode.com",
 		"https://flowcode.dev",
-		"https://github.com/flowcode/flowcode",
+		"https://github.com/flowcode",
 		"https://ollama.com"
 	]
 }

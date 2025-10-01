@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g., v1.0.0)"
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
+
+      - name: Build and package
+        run: |
+          npm run build:desktop
+          npm run electron
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: FlowCode ${{ github.ref_name }}
+          body: |
+            ## FlowCode ${{ github.ref_name }}
+
+            ### What's New
+            - AI-powered code editor
+            - White-labeling support
+            - Enterprise features
+            - Cross-platform desktop app
+
+            ### Downloads
+            - **macOS**: Download the .dmg file
+            - **Windows**: Download the .exe file  
+            - **Linux**: Download the .AppImage file
+
+            ### Web Version
+            Try FlowCode in your browser: https://flowcode.vercel.app
+          files: |
+            out-build/**/*.dmg
+            out-build/**/*.exe
+            out-build/**/*.AppImage
+            out-build/**/*.deb
+            out-build/**/*.rpm
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

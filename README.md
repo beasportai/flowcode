@@ -41,6 +41,7 @@ This repo contains the full sourcecode for FlowCode. If you're new, welcome!
 ## Building FlowCode
 
 ### Prerequisites
+
 - Node.js 20.x
 - npm or yarn
 - Git
@@ -97,4 +98,5 @@ FlowCode is built on the [VSCode](https://github.com/microsoft/vscode) codebase.
 FlowCode is available for commercial use and distribution. Contact us for enterprise licensing and custom features.
 
 ## Support
+
 You can always reach us in our Discord server or contact us via email: hello@flowcode.com.

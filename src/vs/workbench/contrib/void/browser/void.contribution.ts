@@ -23,13 +23,13 @@ import './autocompleteService.js'
 // import './contextUserChangesService.js'
 
 // settings pane
-import './voidSettingsPane.js'
+import './flowcodeSettingsPane.js'
 
 // register css
-import './media/void.css'
+import './media/flowcode.css'
 
 // update (frontend part, also see platform/)
-import './voidUpdateActions.js'
+import './flowcodeUpdateActions.js'
 
 import './convertToLLMMessageWorkbenchContrib.js'
 
@@ -47,13 +47,13 @@ import './metricsPollService.js'
 import './helperServices/consistentItemService.js'
 
 // register selection helper
-import './voidSelectionHelperWidget.js'
+import './flowcodeSelectionHelperWidget.js'
 
 // register tooltip service
 import './tooltipService.js'
 
 // register onboarding service
-import './voidOnboardingService.js'
+import './flowcodeOnboardingService.js'
 
 // register misc service
 import './miscWokrbenchContrib.js'
@@ -62,15 +62,15 @@ import './miscWokrbenchContrib.js'
 import './fileService.js'
 
 // register source control management
-import './voidSCMService.js'
+import './flowcodeSCMService.js'
 
 // ---------- common (unclear if these actually need to be imported, because they're already imported wherever they're used) ----------
 
 // llmMessage
 import '../common/sendLLMMessageService.js'
 
-// voidSettings
-import '../common/voidSettingsService.js'
+// flowcodeSettings
+import '../common/flowcodeSettingsService.js'
 
 // refreshModel
 import '../common/refreshModelService.js'
@@ -79,7 +79,7 @@ import '../common/refreshModelService.js'
 import '../common/metricsService.js'
 
 // updates
-import '../common/voidUpdateService.js'
+import '../common/flowcodeUpdateService.js'
 
 // model service
-import '../common/voidModelService.js'
+import '../common/flowcodeModelService.js'

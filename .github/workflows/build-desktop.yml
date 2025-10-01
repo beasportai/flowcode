@@ -1,0 +1,60 @@
+name: Build Desktop App
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
+
+      - name: Build desktop app
+        run: npm run build:desktop
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
+
+      - name: Build Electron app
+        run: npm run electron
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: flowcode-desktop-${{ matrix.os }}
+          path: |
+            out-build/
+            dist/
+          retention-days: 30
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: build-logs-${{ matrix.os }}
+          path: |
+            *.log
+            out/
+          retention-days: 7
