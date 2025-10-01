@@ -2,7 +2,7 @@
 
 ## 🚀 Quick Start
 
-This guide will help you get FlowCode up and running from the Void fork.
+This guide will help you get FlowCode up and running from the Flow fork.
 
 ### Prerequisites
 
@@ -147,7 +147,7 @@ flowcode/
 │   └── flowcode-brand.json  # FlowCode brand configuration
 ├── scripts/                 # Build and utility scripts
 │   └── white-label.js       # White-labeling automation
-├── src/vs/workbench/contrib/void/  # Void-specific code
+├── src/vs/workbench/contrib/flow/  # Flow-specific code
 │   ├── browser/             # Browser-side code
 │   ├── common/              # Shared code
 │   └── electron-main/       # Main process code
@@ -158,13 +158,13 @@ flowcode/
 ## 📋 Development Workflow
 
 ### 1. Making Changes
-1. Edit source files in `src/vs/workbench/contrib/void/`
+1. Edit source files in `src/vs/workbench/contrib/flow/`
 2. Changes are automatically compiled in watch mode
 3. Reload the application window (Cmd+R / Ctrl+R)
 
 ### 2. Adding New Features
 1. Create new files in appropriate directories
-2. Update `void.contribution.ts` to register services
+2. Update `flow.contribution.ts` to register services
 3. Add UI components to React build if needed
 
 ### 3. Testing
@@ -175,7 +175,7 @@ flowcode/
 ## 🎯 Next Steps
 
 ### Phase 1: Core Functionality ✅
-- [x] Fork and setup Void
+- [x] Fork and setup Flow
 - [x] Implement white-labeling system
 - [x] Create build automation
 

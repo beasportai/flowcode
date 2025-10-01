@@ -1,13 +1,13 @@
-# Void Codebase Flow Documentation
+# Flow Codebase Flow Documentation
 
 ## Overview
-Void is an open-source Cursor alternative built as a fork of VSCode. It provides AI-powered coding assistance with features like chat, autocomplete, quick edit (Ctrl+K), and apply functionality.
+Flow is an open-source Cursor alternative built as a fork of VSCode. It provides AI-powered coding assistance with features like chat, autocomplete, quick edit (Ctrl+K), and apply functionality.
 
 ## Architecture Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        VOID ARCHITECTURE                        │
+│                        FLOW ARCHITECTURE                        │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ┌─────────────────┐    ┌─────────────────┐    ┌──────────────┐ │
@@ -28,12 +28,12 @@ Void is an open-source Cursor alternative built as a fork of VSCode. It provides
 ### 1. Main Entry Points
 
 **Browser Process:**
-- `src/vs/workbench/contrib/void/browser/void.contribution.ts` - Main contribution file that registers all Void services
-- `src/vs/workbench/contrib/void/browser/sidebarPane.ts` - Registers the sidebar view pane
+- `src/vs/workbench/contrib/flow/browser/flow.contribution.ts` - Main contribution file that registers all Flow services
+- `src/vs/workbench/contrib/flow/browser/sidebarPane.ts` - Registers the sidebar view pane
 
 **Electron Main Process:**
-- `src/vs/workbench/contrib/void/electron-main/llmMessage/sendLLMMessage.impl.ts` - Handles LLM communication
-- `src/vs/workbench/contrib/void/electron-main/sendLLMMessageChannel.ts` - IPC channel for LLM messages
+- `src/vs/workbench/contrib/flow/electron-main/llmMessage/sendLLMMessage.impl.ts` - Handles LLM communication
+- `src/vs/workbench/contrib/flow/electron-main/sendLLMMessageChannel.ts` - IPC channel for LLM messages
 
 ### 2. Key Services Architecture
 
@@ -43,7 +43,7 @@ Void is an open-source Cursor alternative built as a fork of VSCode. It provides
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ┌─────────────────┐    ┌─────────────────┐    ┌──────────────┐ │
-│  │  EditCodeService │    │ LLMMessageService│    │VoidSettings  │ │
+│  │  EditCodeService │    │ LLMMessageService│    │FlowSettings  │ │
 │  │                 │    │                 │    │   Service     │ │
 │  │ • Apply Changes │◄──►│ • Send Messages │◄──►│ • Model Config│ │
 │  │ • Diff Zones    │    │ • Stream Results│    │ • Provider    │ │
@@ -54,7 +54,7 @@ Void is an open-source Cursor alternative built as a fork of VSCode. It provides
 │           │                       │                       │      │
 │           ▼                       ▼                       ▼      │
 │  ┌─────────────────┐    ┌─────────────────┐    ┌──────────────┐ │
-│  │  SidebarPane    │    │  ChatThread     │    │  VoidModel   │ │
+│  │  SidebarPane    │    │  ChatThread     │    │  FlowModel   │ │
 │  │                 │    │   Service       │    │   Service    │ │
 │  │ • React Mount   │    │ • Thread History│    │ • File       │ │
 │  │ • View Container│    │ • Message State │    │   Operations │ │
@@ -119,7 +119,7 @@ Sidebar (main container)
 │   │   ├── ApplyBlockHoverButtons (apply/reject)
 │   │   └── ToolMessage (tool call display)
 │   └── ModelDropdown (model selection)
-├── VoidSettings (settings panel)
+├── FlowSettings (settings panel)
 │   ├── ModelDropdown
 │   ├── WarningBox
 │   └── ToolApprovalTypeSwitch
@@ -130,7 +130,7 @@ Sidebar (main container)
 
 ### 1. Settings Management
 ```
-VoidSettingsService (singleton)
+FlowSettingsService (singleton)
 ├── Provider Settings (API keys, endpoints)
 ├── Model Selections (per feature)
 ├── Global Settings (UI preferences)
@@ -147,7 +147,7 @@ Browser Process                    Electron Main Process
 
 ### 3. File Operations
 ```
-VoidModelService
+FlowModelService
 ├── URI Management
 ├── Text Model Access
 ├── File Writing
@@ -198,7 +198,7 @@ Gulp Tasks
 ## Key Files Summary
 
 ### Browser Process
-- `void.contribution.ts` - Main service registration
+- `flow.contribution.ts` - Main service registration
 - `sidebarPane.ts` - Sidebar view container
 - `editCodeService.ts` - Code editing and diff management
 - `chatThreadService.ts` - Chat state management
@@ -207,12 +207,12 @@ Gulp Tasks
 ### Electron Main Process
 - `sendLLMMessage.impl.ts` - LLM provider implementations
 - `sendLLMMessageChannel.ts` - IPC communication
-- `voidSCMMainService.ts` - Source control integration
+- `flowSCMMainService.ts` - Source control integration
 
 ### Common Services
-- `voidSettingsService.ts` - Settings management
+- `flowSettingsService.ts` - Settings management
 - `sendLLMMessageService.ts` - LLM communication interface
-- `voidModelService.ts` - File operations
+- `flowModelService.ts` - File operations
 - `modelCapabilities.ts` - Model configuration
 
 ### React Components

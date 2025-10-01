@@ -2,12 +2,12 @@
 
 ## 🎯 Project Overview
 
-FlowCode is a white-labelable, AI-powered code editor built on top of Void (an open-source Cursor alternative). This document outlines the complete roadmap for transforming Void into a production-ready, commercially viable platform.
+FlowCode is a white-labelable, AI-powered code editor built on top of Flow (an open-source Cursor alternative). This document outlines the complete roadmap for transforming Flow into a production-ready, commercially viable platform.
 
 ## 📋 Implementation Status
 
-### ✅ Phase 1: Get Void Live (COMPLETED)
-- [x] Fork Void repository from https://github.com/voideditor/void
+### ✅ Phase 1: Get Flow Live (COMPLETED)
+- [x] Fork Flow repository from https://github.com/floweditor/flow
 - [x] Clone locally and follow build instructions
 - [x] Install dependencies and resolve build issues
 - [x] Set up development environment
@@ -21,8 +21,8 @@ FlowCode is a white-labelable, AI-powered code editor built on top of Void (an o
 - [x] Test white-labeling with FlowCode branding
 
 ### 🔄 Phase 3: Business Model Implementation (IN PROGRESS)
-- [x] Create licensing service (`src/vs/workbench/contrib/void/common/licensingService.ts`)
-- [x] Implement payment service (`src/vs/workbench/contrib/void/common/paymentService.ts`)
+- [x] Create licensing service (`src/vs/workbench/contrib/flow/common/licensingService.ts`)
+- [x] Implement payment service (`src/vs/workbench/contrib/flow/common/paymentService.ts`)
 - [ ] Integrate Stripe/Paddle for payments
 - [ ] Create license key validation system
 - [ ] Implement subscription management
@@ -30,7 +30,7 @@ FlowCode is a white-labelable, AI-powered code editor built on top of Void (an o
 - [ ] Create admin dashboard for license management
 
 ### ⏳ Phase 4: Enterprise Features (PENDING)
-- [x] Create enterprise service (`src/vs/workbench/contrib/void/common/enterpriseService.ts`)
+- [x] Create enterprise service (`src/vs/workbench/contrib/flow/common/enterpriseService.ts`)
 - [ ] Implement SSO integration (SAML, OIDC, Google, Microsoft)
 - [ ] Add role-based access control (RBAC)
 - [ ] Create audit logging system

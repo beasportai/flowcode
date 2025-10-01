@@ -69,7 +69,7 @@ The FlowCode build process follows this sequence:
 
 1. **Clean Phase**: Removes old build artifacts
 2. **Extension Compilation**: Compiles all built-in extensions
-3. **Core Compilation**: Compiles the main VSCode/Void codebase
+3. **Core Compilation**: Compiles the main VSCode/Flow codebase
 4. **Asset Processing**: Processes media and static assets
 5. **Output Generation**: Creates the final build in `/out` directory
 
@@ -192,13 +192,13 @@ If the build system becomes corrupted:
 
 If you encounter issues not covered in this guide:
 
-1. Check the [Void Editor Issues](https://github.com/voideditor/void/issues)
+1. Check the [Flow Editor Issues](https://github.com/floweditor/flow/issues)
 2. Review the [VSCode Build Documentation](https://github.com/microsoft/vscode/wiki/How-to-Contribute)
 3. Check system resources and memory usage
 4. Verify Node.js and npm versions
 
 ---
 
-**Last Updated**: January 2025  
-**FlowCode Version**: 1.99.3  
+**Last Updated**: January 2025
+**FlowCode Version**: 1.99.3
 **Build Status**: ✅ RESOLVED - All major build issues fixed

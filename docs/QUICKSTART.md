@@ -184,7 +184,7 @@ npm run compile
 ## Next Steps
 
 ### For Developers
-1. **Explore the Codebase**: Check out `VOID_FLOW_DOCUMENTATION.md`
+1. **Explore the Codebase**: Check out `FLOW_DOCUMENTATION.md`
 2. **Customize Features**: Modify settings and prompts
 3. **Add Integrations**: Build custom tools and extensions
 4. **Contribute**: Submit pull requests and improvements

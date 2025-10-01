@@ -31,4 +31,4 @@ npx electron-builder --publish=never
 - `QUICKSTART.md` - Developer setup
 - `DISTRIBUTION_GUIDE.md` - Packaging guide
 - `COMMERCIAL_FEATURES.md` - Commercial features
-- `VOID_FLOW_DOCUMENTATION.md` - Architecture
+- `FLOW_DOCUMENTATION.md` - Architecture

@@ -690,8 +690,8 @@ export function bundleESMTask(opts: IBundleESMTaskOpts): NodeJS.ReadWriteStream 
   "main": "./out/main.js",
   "type": "module",
   "scripts": {
-    "buildreact": "cd ./src/vs/workbench/contrib/void/browser/react/ && node build.js",
-    "watchreact": "cd ./src/vs/workbench/contrib/void/browser/react/ && node build.js --watch",
+    "buildreact": "cd ./src/vs/workbench/contrib/flow/browser/react/ && node build.js",
+    "watchreact": "cd ./src/vs/workbench/contrib/flow/browser/react/ && node build.js --watch",
     "compile": "node ./node_modules/gulp/bin/gulp.js compile",
     "watch": "npm-run-all -lp watch-client watch-extensions",
     "watch-client": "node --max-old-space-size=8192 ./node_modules/gulp/bin/gulp.js watch-client",
