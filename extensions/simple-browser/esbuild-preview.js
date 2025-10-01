@@ -15,15 +15,24 @@ const mainNodeModules = path.join(__dirname, '../../../../node_modules');
 let codiconPath;
 if (require('fs').existsSync(path.join(extensionNodeModules, '@vscode', 'codicons', 'dist', 'codicon.css'))) {
 	codiconPath = path.join(extensionNodeModules, '@vscode', 'codicons', 'dist', 'codicon.css');
-} else {
+} else if (require('fs').existsSync(path.join(mainNodeModules, '@vscode', 'codicons', 'dist', 'codicon.css'))) {
 	codiconPath = path.join(mainNodeModules, '@vscode', 'codicons', 'dist', 'codicon.css');
+} else {
+	// Fallback: use the built-in codicon.css from the main project
+	codiconPath = path.join(__dirname, '../../../../src/vs/base/browser/ui/codicons/codicon/codicon.css');
+}
+
+// Only include codicon if the file exists
+const entryPoints = {
+	'index': path.join(srcDir, 'index.ts'),
+};
+
+if (require('fs').existsSync(codiconPath)) {
+	entryPoints['codicon'] = codiconPath;
 }
 
 require('../esbuild-webview-common').run({
-	entryPoints: {
-		'index': path.join(srcDir, 'index.ts'),
-		'codicon': codiconPath,
-	},
+	entryPoints,
 	srcDir,
 	outdir: outDir,
 	additionalOptions: {
