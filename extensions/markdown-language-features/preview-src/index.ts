@@ -9,7 +9,7 @@ import { createPosterForVsCode } from './messaging';
 import { getEditorLineNumberForPageOffset, scrollToRevealSourceLine, getLineElementForFragment } from './scroll-sync';
 import { SettingsManager, getData, getRawData } from './settings';
 import throttle = require('lodash.throttle');
-import morphdom from 'morphdom';
+import morphdom = require('morphdom');
 import type { ToWebviewMessage } from '../types/previewMessaging';
 import { isOfScheme, Schemes } from '../src/util/schemes';
 
