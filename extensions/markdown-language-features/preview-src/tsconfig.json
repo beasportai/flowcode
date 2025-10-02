@@ -6,7 +6,7 @@
 		"esModuleInterop": true,
 		"lib": ["es2018", "DOM", "DOM.Iterable"]
 	},
-	"include": ["**/*", "../../../src/vscode-dts/vscode.d.ts"],
+	"include": ["**/*", "../types/**/*", "../../../src/vscode-dts/vscode.d.ts"],
 	"typeAcquisition": {
 		"include": ["@types/vscode-webview"]
 	}
