@@ -20434,3 +20434,24 @@ declare module 'vscode' {
  * we recommend the use of native promises which are available in this editor.
  */
 interface Thenable<T> extends PromiseLike<T> { }
+
+/**
+ * Acquires an instance of the VS Code API to enable communication between the webview and the extension.
+ * This function can only be invoked once per webview context.
+ */
+declare function acquireVsCodeApi(): {
+	/**
+	 * Post a message to the extension.
+	 */
+	postMessage(message: any): void;
+
+	/**
+	 * Get the persistent state stored for this webview.
+	 */
+	getState(): any;
+
+	/**
+	 * Set the persistent state for this webview.
+	 */
+	setState(newState: any): void;
+};

@@ -4,15 +4,10 @@
 		"outDir": "./dist/",
 		"jsx": "react",
 		"esModuleInterop": true,
-		"lib": [
-			"es2018",
-			"DOM",
-			"DOM.Iterable"
-		]
+		"lib": ["es2018", "DOM", "DOM.Iterable"]
 	},
+	"include": ["**/*", "../../../src/vscode-dts/vscode.d.ts"],
 	"typeAcquisition": {
-		"include": [
-			"@types/vscode-webview"
-		]
+		"include": ["@types/vscode-webview"]
 	}
 }
