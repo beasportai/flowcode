@@ -71,7 +71,10 @@
     "extensions-ci-pr": "node ./node_modules/gulp/bin/gulp.js extensions-ci-pr",
     "perf": "node scripts/code-perf.js",
     "update-build-ts-version": "npm install typescript@next && tsc -p ./build/tsconfig.build.json",
-    "vercel-build": "NODE_OPTIONS='--max-old-space-size=8192' npm run buildreact && cd build && npm install && cd .. && cd extensions/markdown-language-features && npm install && cd ../../ && npm run compile-vercel && npm run compile-build && npm run minify-vscode",
+    "vercel-build": "NODE_OPTIONS='--max-old-space-size=6144' npm run buildreact && cd build && npm install && cd .. && cd extensions/markdown-language-features && npm install && cd ../../ && npm run compile-vercel-optimized && npm run compile-build-vercel && npm run minify-vscode",
+    "vercel-build-optimized": "bash scripts/vercel-build-optimized.sh",
+    "compile-vercel-optimized": "node --max-old-space-size=6144 ./node_modules/gulp/bin/gulp.js --gulpfile build/gulpfile.vercel-optimized.js compile-vercel-optimized",
+    "compile-build-vercel": "node --max-old-space-size=6144 ./node_modules/gulp/bin/gulp.js --gulpfile build/gulpfile.vercel-optimized.js compile-build-vercel",
     "poll-build": "node scripts/poll-vercel-build.js"
   },
   "dependencies": {

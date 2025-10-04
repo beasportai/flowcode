@@ -1,0 +1,61 @@
+{
+	"environments": {
+		"vercel": {
+			"memoryLimit": "6144",
+			"disableMangle": true,
+			"skipExtensions": [
+				"vscode-colorize-tests",
+				"vscode-colorize-perf-tests",
+				"vscode-api-tests",
+				"vscode-test-resolver",
+				"vscode-selfhost-test-provider",
+				"vscode-selfhost-import-aid"
+			],
+			"optimizations": {
+				"transpileOnly": true,
+				"skipSourceMaps": false,
+				"parallelBuilds": 2
+			}
+		},
+		"github-actions": {
+			"memoryLimit": "16384",
+			"disableMangle": false,
+			"skipExtensions": [],
+			"optimizations": {
+				"transpileOnly": false,
+				"skipSourceMaps": false,
+				"parallelBuilds": 4
+			}
+		},
+		"local": {
+			"memoryLimit": "8192",
+			"disableMangle": false,
+			"skipExtensions": [],
+			"optimizations": {
+				"transpileOnly": false,
+				"skipSourceMaps": true,
+				"parallelBuilds": 3
+			}
+		}
+	},
+	"buildStrategies": {
+		"minimal": {
+			"description": "Minimal build for Vercel",
+			"extensions": "essential-only",
+			"features": ["chat", "quick-edit", "settings"],
+			"memoryUsage": "low"
+		},
+		"standard": {
+			"description": "Standard build with all features",
+			"extensions": "all",
+			"features": ["chat", "quick-edit", "settings", "tools", "mcp"],
+			"memoryUsage": "medium"
+		},
+		"full": {
+			"description": "Full build with all extensions and features",
+			"extensions": "all-including-tests",
+			"features": "all",
+			"memoryUsage": "high"
+		}
+	}
+}
