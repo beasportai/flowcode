@@ -21,6 +21,7 @@
     "preinstall": "node -e \"if (process.env.VERCEL) { console.log('Skipping preinstall for Vercel build'); process.exit(0); } else { require('child_process').execSync('node build/npm/preinstall.js', {stdio: 'inherit'}); }\"",
     "postinstall": "node -e \"if (process.env.VERCEL) { console.log('Skipping postinstall for Vercel build'); process.exit(0); } else { require('child_process').execSync('node build/npm/postinstall.js', {stdio: 'inherit'}); }\"",
     "compile": "node ./node_modules/gulp/bin/gulp.js compile",
+    "compile-vercel": "node ./node_modules/gulp/bin/gulp.js compile-vercel",
     "watch": "npm-run-all -lp watch-client watch-extensions",
     "watchd": "deemon npm run watch",
     "watch-webd": "deemon npm run watch-web",
@@ -70,7 +71,7 @@
     "extensions-ci-pr": "node ./node_modules/gulp/bin/gulp.js extensions-ci-pr",
     "perf": "node scripts/code-perf.js",
     "update-build-ts-version": "npm install typescript@next && tsc -p ./build/tsconfig.build.json",
-    "vercel-build": "NODE_OPTIONS='--max-old-space-size=8192' npm run buildreact && cd build && npm install && cd .. && cd extensions/markdown-language-features && npm install && cd ../../ && npm run compile && npm run compile-build && npm run minify-vscode",
+    "vercel-build": "NODE_OPTIONS='--max-old-space-size=8192' npm run buildreact && cd build && npm install && cd .. && cd extensions/markdown-language-features && npm install && cd ../../ && npm run compile-vercel && npm run compile-build && npm run minify-vscode",
     "poll-build": "node scripts/poll-vercel-build.js"
   },
   "dependencies": {

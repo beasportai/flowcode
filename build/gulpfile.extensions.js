@@ -73,6 +73,16 @@ const compilations = [
 	'.vscode/extensions/vscode-selfhost-import-aid/tsconfig.json',
 ];
 
+// Vercel build - exclude test extensions
+const compilationsVercel = compilations.filter(compilation =>
+	!compilation.includes('vscode-colorize-tests') &&
+	!compilation.includes('vscode-colorize-perf-tests') &&
+	!compilation.includes('vscode-api-tests') &&
+	!compilation.includes('vscode-test-resolver') &&
+	!compilation.includes('vscode-selfhost-test-provider') &&
+	!compilation.includes('vscode-selfhost-import-aid')
+);
+
 const getBaseUrl = out => `https://main.vscode-cdn.net/sourcemaps/${commit}/${out}`;
 
 const tasks = compilations.map(function (tsconfigFile) {
@@ -205,6 +215,116 @@ gulp.task(transpileExtensionsTask);
 const compileExtensionsTask = task.define('compile-extensions', task.parallel(...tasks.map(t => t.compileTask)));
 gulp.task(compileExtensionsTask);
 exports.compileExtensionsTask = compileExtensionsTask;
+
+// Vercel build - exclude test extensions
+const tasksVercel = compilationsVercel.map(function (tsconfigFile) {
+	const absolutePath = path.join(root, tsconfigFile);
+	const relativeDirname = path.dirname(tsconfigFile.replace(/^(.*\/)?extensions\//i, ''));
+
+	const overrideOptions = {};
+	overrideOptions.sourceMap = true;
+
+	const name = relativeDirname.replace(/\//g, '-');
+
+	const srcRoot = path.dirname(tsconfigFile);
+	const srcBase = path.join(srcRoot, 'src');
+	const src = path.join(srcBase, '**');
+	const srcOpts = { cwd: root, base: srcBase, dot: true };
+
+	const out = path.join(srcRoot, 'out');
+	const baseUrl = getBaseUrl(out);
+
+	let headerId, headerOut;
+	const index = relativeDirname.indexOf('/');
+	if (index < 0) {
+		headerId = 'vscode.' + relativeDirname;
+		headerOut = 'out';
+	} else {
+		headerId = 'vscode.' + relativeDirname.substr(0, index);
+		headerOut = relativeDirname.substr(index + 1) + '/out';
+	}
+
+	function createPipeline(build, emitError, transpileOnly) {
+		const tsb = require('./lib/tsb');
+		const sourcemaps = require('gulp-sourcemaps');
+
+		const reporter = createReporter('extensions');
+
+		overrideOptions.inlineSources = Boolean(build);
+		overrideOptions.base = path.dirname(absolutePath);
+
+		const compilation = tsb.create(absolutePath, overrideOptions, { verbose: false, transpileOnly, transpileOnlyIncludesDts: transpileOnly, transpileWithSwc: true }, err => reporter(err.toString()));
+
+		const pipeline = function () {
+			const input = es.through();
+			const tsFilter = filter(['**/*.ts', '!**/lib/lib*.d.ts', '!**/node_modules/**'], { restore: true, dot: true });
+			const output = input
+				.pipe(plumber({
+					errorHandler: function (err) {
+						if (err && !err.__reporter__) {
+							reporter(err);
+						}
+					}
+				}))
+				.pipe(tsFilter)
+				.pipe(sourcemaps.init())
+				.pipe(compilation())
+				.pipe(tsFilter.restore)
+				.pipe(sourcemaps.write('.', {
+					addComment: false,
+					includeContent: false,
+					sourceRoot: baseUrl
+				}));
+
+			return es.duplex(input, output);
+		};
+
+		// add src-stream for project files
+		pipeline.tsProjectSrc = () => {
+			return compilation.src(srcOpts);
+		};
+		return pipeline;
+	}
+
+	const cleanTask = task.define(`clean-extension-${name}`, util.rimraf(out));
+
+	const transpileTask = task.define(`transpile-extension:${name}`, task.series(cleanTask, () => {
+		const pipeline = createPipeline(false, true, true);
+		const nonts = gulp.src(src, srcOpts).pipe(filter(['**', '!**/*.ts']));
+		const input = es.merge(nonts, pipeline.tsProjectSrc());
+
+		return input
+			.pipe(pipeline())
+			.pipe(gulp.dest(out));
+	}));
+
+	const compileTask = task.define(`compile-extension:${name}`, task.series(cleanTask, () => {
+		const pipeline = createPipeline(false, true);
+		const nonts = gulp.src(src, srcOpts).pipe(filter(['**', '!**/*.ts']));
+		const input = es.merge(nonts, pipeline.tsProjectSrc());
+
+		return input
+			.pipe(pipeline())
+			.pipe(gulp.dest(out));
+	}));
+
+	const watchTask = task.define(`watch-extension:${name}`, task.series(cleanTask, () => {
+		const pipeline = createPipeline(false);
+		const nonts = gulp.src(src, srcOpts).pipe(filter(['**', '!**/*.ts']));
+		const input = es.merge(nonts, pipeline.tsProjectSrc());
+		const watchInput = watcher(src, { ...srcOpts, ...{ readDelay: 200 } });
+
+		return watchInput
+			.pipe(util.incremental(pipeline, input))
+			.pipe(gulp.dest(out));
+	}));
+
+	return { transpileTask, compileTask, watchTask };
+});
+
+const compileExtensionsVercelTask = task.define('compile-extensions-vercel', task.parallel(...tasksVercel.map(t => t.compileTask)));
+gulp.task(compileExtensionsVercelTask);
+exports.compileExtensionsVercelTask = compileExtensionsVercelTask;
 
 const watchExtensionsTask = task.define('watch-extensions', task.parallel(...tasks.map(t => t.watchTask)));
 gulp.task(watchExtensionsTask);

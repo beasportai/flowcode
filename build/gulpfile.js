@@ -13,7 +13,7 @@ const util = require('./lib/util');
 const task = require('./lib/task');
 const { transpileClientSWC, transpileTask, compileTask, watchTask, compileApiProposalNamesTask, watchApiProposalNamesTask } = require('./lib/compilation');
 const { monacoTypecheckTask/* , monacoTypecheckWatchTask */ } = require('./gulpfile.editor');
-const { compileExtensionsTask, watchExtensionsTask, compileExtensionMediaTask } = require('./gulpfile.extensions');
+const { compileExtensionsTask, compileExtensionsVercelTask, watchExtensionsTask, compileExtensionMediaTask } = require('./gulpfile.extensions');
 
 // API proposal names
 gulp.task(compileApiProposalNamesTask);
@@ -37,6 +37,10 @@ gulp.task(watchClientTask);
 // All
 const _compileTask = task.define('compile', task.parallel(monacoTypecheckTask, compileClientTask, compileExtensionsTask, compileExtensionMediaTask));
 gulp.task(_compileTask);
+
+// Vercel build - exclude test extensions
+const _compileVercelTask = task.define('compile-vercel', task.parallel(monacoTypecheckTask, compileClientTask, compileExtensionsVercelTask, compileExtensionMediaTask));
+gulp.task(_compileVercelTask);
 
 gulp.task(task.define('watch', task.parallel(/* monacoTypecheckWatchTask, */ watchClientTask, watchExtensionsTask)));
 
