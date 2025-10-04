@@ -3,7 +3,19 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type * as nativeKeymap from 'native-keymap';
+// Conditional import for Vercel builds
+let nativeKeymap: any;
+if (process.env.VERCEL) {
+	// Mock for Vercel builds
+	nativeKeymap = {
+		getCurrentKeyboardLayout: () => ({ info: { name: 'us' }, mapping: {} }),
+		onDidChangeKeyboardLayout: () => ({ dispose: () => { } })
+	};
+} else {
+	// @ts-ignore - native-keymap is not available in Vercel builds
+	import type * as nativeKeymapType from 'native-keymap';
+	nativeKeymap = nativeKeymapType;
+}
 import * as platform from '../../../base/common/platform.js';
 import { Emitter } from '../../../base/common/event.js';
 import { Disposable } from '../../../base/common/lifecycle.js';
@@ -46,7 +58,13 @@ export class KeyboardLayoutMainService extends Disposable implements INativeKeyb
 	}
 
 	private async _doInitialize(): Promise<void> {
-		const nativeKeymapMod = await import('native-keymap');
+		let nativeKeymapMod: any;
+		if (process.env.VERCEL) {
+			// Use the mock for Vercel builds
+			nativeKeymapMod = nativeKeymap;
+		} else {
+			nativeKeymapMod = await import('native-keymap');
+		}
 
 		this._keyboardLayoutData = readKeyboardLayoutData(nativeKeymapMod);
 		if (!platform.isCI) {
