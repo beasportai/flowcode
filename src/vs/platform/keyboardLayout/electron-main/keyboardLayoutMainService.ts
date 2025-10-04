@@ -13,8 +13,7 @@ if (process.env.VERCEL) {
 	};
 } else {
 	// @ts-ignore - native-keymap is not available in Vercel builds
-	import type * as nativeKeymapType from 'native-keymap';
-	nativeKeymap = nativeKeymapType;
+	nativeKeymap = require('native-keymap');
 }
 import * as platform from '../../../base/common/platform.js';
 import { Emitter } from '../../../base/common/event.js';
@@ -63,7 +62,8 @@ export class KeyboardLayoutMainService extends Disposable implements INativeKeyb
 			// Use the mock for Vercel builds
 			nativeKeymapMod = nativeKeymap;
 		} else {
-			nativeKeymapMod = await import('native-keymap');
+			// @ts-ignore - native-keymap is not available in Vercel builds
+			nativeKeymapMod = require('native-keymap');
 		}
 
 		this._keyboardLayoutData = readKeyboardLayoutData(nativeKeymapMod);
